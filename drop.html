@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<title>flex布局</title>
+<style>
+	#box1{
+		width: 200px;
+		height: 200px;
+		background-color: yellow;
+		position:absolute;
+		cursor:move;
+	}
+	#box2{
+		width: 100px;
+		height: 100px;
+		background-color: blue;
+
+	}
+</style>
+</head>
+<body>
+	<div id="box1">
+		<div id="box2"></div>
+	</div>
+
+	<script>
+
+        
+ 					function drop(id){
+                        var dom = document.getElementById(id);
+                        var w =  dom.clientWidth;//获取客户区大小即padding+content p322
+                        var h =  dom.clientHeight;
+                        dom.addEventListener("mousedown",function(e){
+                                var flag=true;
+                                var e = e || window.event;//兼容ie的事件对象
+                                var d = document.documentElement; //获取html节点p254
+                                var docW = d.clientWidth;//获取文档的宽度
+                                var docH = d.clientHeight;
+                                var dx = e.clientX-this.offsetLeft;//某点鼠标的x - 容器的所在x
+                                var dy = e.clientY-this.offsetTop;
+                                this.addEventListener("mousemove",function(e){
+                                        var e = e || window.event;
+                                        var left = e.clientX-dx;
+                                        var top = e.clientY-dy;
+                                        if(flag){
+                                                if(left<=0){
+                                                        left = 0;
+                                                }else if(left >=  docW- w){
+                                                        left = docW - w;
+                                                }
+                                                if(top <= 0 ){
+                                                        top = 0;
+                                                }else if(top >= docH - h){
+                                                        top = docH - h;
+                                                }
+                                                this.style.left = left+"px";
+                                                this.style.top = top+"px";        
+                                        }
+                                })
+                                this.addEventListener("mouseup",function(){
+                                        flag = false;
+                                })
+                        })
+                }
+                drop("box1");
+
+</script>
+	
+</body>
+</html>
