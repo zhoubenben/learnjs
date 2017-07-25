@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<title>flex布局</title>
+<style>
+	
+</style>
+</head>
+<body>
+	<script>
+		//继承
+		//1.原型链继承
+	/*
+			//父类对象
+			function Supertype(name){
+				this.name=name;
+			}
+			Supertype.prototype={
+				constructor:Supertype,
+				sayname:function(){
+					alert(this.name);
+				}
+			}
+			//子类
+			function Subtype(){
+				this.age=14;
+				
+			}
+			//子类对象继承父类
+			Subtype.prototype=new Supertype("zhoubenben");
+			//创建子类的实例
+			var obj=new Subtype();
+			var obj1=new Subtype();
+			console.log(obj1.name);
+			obj.sayname();
+		*/	
+			//缺点：子类自己的方法和属性只能放在子类构造函数内
+				//父类的属性和方法对子类是共享的
+				//无法实现多个继承
+
+		//2.借用构造函数
+	/*
+			function Supertype(age){
+				this.age=age;
+				Supertype.prototype.sayage=function(){
+					alert(this.age)
+				}
+			}
+
+			function Subtype(){
+				Supertype.call(this,18);//这里传参数
+
+			}
+			var obj=new Subtype();
+			console.log(obj);
+			//obj.sayage();//报错
+
+			//优点：
+			// 解决了1中，子类实例共享父类引用属性的问题
+			// 创建子类实例时，可以向父类传递参数
+			// 可以实现多继承（call多个父类对象）
+			// 缺点：
+			// 实例并不是父类的实例，只是子类的实例
+			// 只能继承父类的实例属性和方法，不能继承父类原型属性/方法
+*/
+		//3.组合继承
+			function Supertype(age){
+				this.age=age;
+			}
+			Supertype.prototype.sayage=function(){
+				alert(this.age);
+			}
+			function Subtype(){
+				//继承属性
+				Supertype.call(this,18);
+			}
+			Subtype.prototype=new Supertype();
+				//继承方法
+			var obj=new Subtype();
+			obj.sayage()
+				//特点：
+				// 弥补了方式2的缺陷，可以继承实例属性/方法，也可以继承原型属性/方法
+				// 既是子类的实例，也是父类的实例
+				// 不存在引用属性共享问题
+				// 可传参
+				// 函数可复用
+				// 缺点：
+				// 调用了两次父类构造函数，生成了两份实例（子类实例将子类原型上的那份屏蔽了）
+		//4.原型式继承
+		//5.寄生式继承
+		//寄生组合式继承
+	</script>
+</body>
+</html>

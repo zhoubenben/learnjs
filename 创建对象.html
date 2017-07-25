@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<title>flex布局</title>
+<style>
+	
+</style>
+</head>
+<body>
+	<script>
+//创建对象的几种方式
+
+//1.工厂模式
+/*
+	function A(name){
+		var obj={};
+		obj.name=name;
+		obj.sayname=function(){
+			alert(this.name)
+		}
+		return obj;
+	}
+	var objb=A("zhoubenben")
+	console.log(objb);
+*/
+	//优点：可以传参数，但是不知道对象的类型
+
+
+//2.构造函数模式
+/*
+	function A(name){
+		this.name=name;
+		this.sayname=function(){
+			alert(this.name);
+		}
+	}
+	var objb=new A("zhoubenben");
+	console.log(objb);
+	//构造函数和其他函数唯一的区别在于调用方式不同，任何函数只要通过new操作符来调用那他就是构造函数
+	//构造函数的缺点：每个方法都要在每个实例上重新创造一遍	
+*/
+
+//3.原型模式
+	//3-1.基本模式
+/*	
+function A(){
+		//空构造函数
+	}
+	A.prototype.name="zhoubenben";
+	A.prototype.sayname=function(){
+		alert("this.name");
+	}
+	var objb=new A();
+	objb.name="zhou";
+	console.log(objb);
+*/
+	//3-2.简单模式
+/*
+	function A(){
+		//空构造函数
+	};
+	A.prototype={
+		constructor:A,//如果constructor很重要可以这样
+		name:"zhoubenben",
+		sayname:function(){
+		alert(this.name);
+		}
+	}//此时constructor指向改变
+	var objb=new A();//一定要要在A.prototype后面new
+	console.log(objb);
+	//缺点：A的所有属性和方法对所有实例都是共享，而且不能单独传参数，实例可以改变A的属性和方法
+	//使得共享数据改变
+*/
+//4.组合使用构造函数模式和原型模式----建议使用
+	//属性放在构造函数内，方法放在原型对象中
+/*
+	function A(name,age){
+		this.name=name;
+		this.age=age;
+	}
+	A.prototype={
+		constructor:A,
+		sayname:function(){
+			alert(this.name);
+		}
+	}
+	var obj=new A("zhoubenben",18);
+	var obj1=new A("liuyuanyuan",18);
+	console.log(obj);
+	console.log(obj1);
+	//混合模式中构造函数模式用于定义实例属性，而原型模式用于定义方法和共享属性。每个实例都会有自己的一份实例属性，
+	//但同时又共享着方法，最大限度的节省了内存。另外这种模式还支持传递初始参数。
+	//优点甚多。这种模式在ECMAScript中是使用最广泛、认同度最高的一种创建自定义对象的方法。
+*/
+//5.动态原型模式
+	function A(name){
+		this.name=name;
+		if(typeof this.sayname !="function"){ //sayname方法不存在时候执行
+			alert("aa")	//只会弹出一次
+			A.prototype.sayname=function(){
+				alert(this.name);
+			}
+		}
+	}
+	var obj=new A("zhou");
+	var obj1=new A("zhou1");
+	obj.sayname();
+	obj1.sayname();
+	
+	//动态原型模式将所有信息封装在了构造函数中，而通过构造函数中初始化原型（仅第一个对象实例化时初始化原型），
+	//这个可以通过判断该方法是否有效而选择是否需要初始化原型。
+	//可以看到上面的例子中只弹出一次窗，"aa"，即当obj初始化时，
+	//这样做obj1就不在需要初始化原型，对于使用这种模式创建对象，可以算是perfect了。
+//6.寄生构造函数模式
+//7.稳妥构造函数模式
+	</script>
+</body>
+</html>
